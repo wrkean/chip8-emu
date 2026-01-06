@@ -1,4 +1,7 @@
-use std::{fs::File, io::{self, Read, Result}};
+use std::{
+    fs::File,
+    io::{self, Read, Result},
+};
 
 const FONTSET_START_ADDR: usize = 0x50;
 const PROGRAM_START_ADDR: usize = 0x200;
@@ -48,17 +51,20 @@ impl Chip8 {
     fn load_rom(&mut self, path: &str) -> Result<()> {
         let mut file = File::open(path)?;
 
-        // Store raw data from the ROM to a 
+        // Store raw data from the ROM to a
         // temporary buffer for error handling
         let mut buf = Vec::new();
         file.read_to_end(&mut buf)?;
 
-        let end = PROGRAM_START_ADDR + buf.len();        // Would be the index of the last
+        let end = PROGRAM_START_ADDR + buf.len(); // Would be the index of the last
 
         // Returns an error if the index goes beyond
         // bounds
         if end > self.memory.len() {
-            return Err(io::Error::new(io::ErrorKind::InvalidData, "ROM too large to fit in memory"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "ROM too large to fit in memory",
+            ));
         }
 
         // The ROM is ok, store it to memory starting from
@@ -87,7 +93,8 @@ impl Chip8 {
             the left. The right half of the opcode is now zeroed out.
             Then we set the right half with memory[PC + 1].
         */
-        let opcode = ((self.memory[self.PC as usize] as u16) << 8) | (self.memory[(self.PC + 1) as usize] as u16);
+        let opcode = ((self.memory[self.PC as usize] as u16) << 8)
+            | (self.memory[(self.PC + 1) as usize] as u16);
 
         // The X and Y from the opcode is always at the second
         // and third nibble of the opcode. We can assign it to a
@@ -132,7 +139,7 @@ impl Chip8 {
                 // 3XNN: Skips next instruction if
                 // V[X] == NN
                 if (self.V[X] as u16) == NN {
-                    self.PC += 4;               // Skips next instruction
+                    self.PC += 4; // Skips next instruction
                 } else {
                     self.PC += 2;
                 }
@@ -141,7 +148,7 @@ impl Chip8 {
                 // 4XNN: Skips next instruction if
                 // V[X] != NN
                 if (self.V[X] as u16) != NN {
-                    self.PC += 4;               // Skips next instruction
+                    self.PC += 4; // Skips next instruction
                 } else {
                     self.PC += 2;
                 }
@@ -203,7 +210,7 @@ impl Chip8 {
                         // if V[X] is greater than V[Y], then
                         // set V[0xF] to 1, otherwise set to 0
                         let (diff, borrow) = self.V[X].overflowing_sub(self.V[Y]);
-                        self.V[0xF] = if borrow { 0 } else { 1 };           // if borrow = true, then V[X] must be lesser than V[Y]
+                        self.V[0xF] = if borrow { 0 } else { 1 }; // if borrow = true, then V[X] must be lesser than V[Y]
                         self.V[X] = diff;
                         self.PC += 2;
                     }
@@ -342,7 +349,6 @@ impl Chip8 {
                         if key_pressed {
                             self.PC += 2;
                         }
-
                     }
                     0x0015 => {
                         // FX15: Set delay timer to V[X]
@@ -358,7 +364,6 @@ impl Chip8 {
                         // FX1E: Sets I to I + V[X]
                         self.I = self.I.wrapping_add(self.V[X] as u16);
                         self.PC += 2;
-                        
                     }
                     0x0029 => {
                         // FX29: Set I to the location of
@@ -373,9 +378,9 @@ impl Chip8 {
                         // of V[X] to memory[I], memory[I + 1], and memory[I + 2]
                         let value = self.V[X];
 
-                        self.memory[self.I as usize]        = value / 100;
-                        self.memory[self.I as usize + 1]    = (value % 100) / 10;
-                        self.memory[self.I as usize + 2]    = value % 10;
+                        self.memory[self.I as usize] = value / 100;
+                        self.memory[self.I as usize + 1] = (value % 100) / 10;
+                        self.memory[self.I as usize + 2] = value % 10;
 
                         self.PC += 2;
                     }
@@ -413,4 +418,3 @@ impl Chip8 {
         }
     }
 }
-

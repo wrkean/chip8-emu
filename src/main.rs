@@ -1,7 +1,7 @@
 mod mods;
+use std::io::Result;
 use std::time::{Duration, Instant};
 use std::{env, thread};
-use std::io::Result;
 
 use mods::chip8::Chip8;
 use sdl2::event::Event;
@@ -22,27 +22,29 @@ const SCALE_X: u32 = WIDTH / CHIP8_WIDTH;
 const SCALE_Y: u32 = HEIGHT / CHIP8_HEIGHT;
 
 // Constants for timing
-const CPF: u32 = 15;        // Cycles per frame (CPF)
+const CPF: u32 = 15; // Cycles per frame (CPF)
 const TIMER_TICK: Duration = Duration::from_millis(16);
 
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
     let context = sdl2::init().unwrap();
-    context.keyboard().set_mod_state(flags);
+    // context.keyboard().set_mod_state(flags);
     let video = context.video().unwrap();
 
-    let window = video.window("Chip8-Emulator", WIDTH, HEIGHT)
+    let window = video
+        .window("Chip8-Emulator", WIDTH, HEIGHT)
         .position_centered()
         .build()
         .unwrap();
 
-   let mut renderer = window.into_canvas()
+    let mut renderer = window
+        .into_canvas()
         .accelerated()
         .present_vsync()
         .build()
         .unwrap();
 
-    let chip8_fontset: Vec<u8> = vec![ 
+    let chip8_fontset = vec![
         0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
         0x20, 0x60, 0x20, 0x20, 0x70, // 1
         0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -58,11 +60,11 @@ fn main() -> Result<()> {
         0xF0, 0x80, 0x80, 0x80, 0xF0, // C
         0xE0, 0x90, 0x90, 0x90, 0xE0, // D
         0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
-        0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+        0xF0, 0x80, 0xF0, 0x80, 0x80, // F
     ];
 
     let mut chip8 = Chip8::new();
-    chip8.init(&args[1], chip8_fontset)?;              // Take `chip8_fontset`'s ownership here
+    chip8.init(&args[1], chip8_fontset)?; // Take `chip8_fontset`'s ownership here
 
     let mut last_frame = Instant::now();
 
@@ -74,7 +76,11 @@ fn main() -> Result<()> {
             // Handle the event
             match event {
                 Event::Quit { .. } => break 'running,
-                Event::KeyDown { scancode: Some(sc), repeat, .. } => {
+                Event::KeyDown {
+                    scancode: Some(sc),
+                    repeat,
+                    ..
+                } => {
                     if let Some(i) = map_scancode(sc) {
                         if !repeat {
                             chip8.keypad[i] = 1;
@@ -82,13 +88,15 @@ fn main() -> Result<()> {
                         }
                     }
                 }
-                Event::KeyUp { scancode: Some(sc), .. } => {
+                Event::KeyUp {
+                    scancode: Some(sc), ..
+                } => {
                     if let Some(i) = map_scancode(sc) {
                         chip8.keypad[i] = 0;
                         println!("Scancode upped: {:?}", sc);
                     }
                 }
-                _ => { }
+                _ => {}
             }
         }
 
@@ -130,7 +138,7 @@ fn render_display(renderer: &mut Canvas<Window>, display: &[u8]) {
                 (x as i32) * SCALE_X as i32,
                 (y as i32) * SCALE_Y as i32,
                 SCALE_X,
-                SCALE_Y
+                SCALE_Y,
             ));
         }
     }
