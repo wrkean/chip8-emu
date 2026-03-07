@@ -1,3 +1,7 @@
+# Description
+
+A chip8 emulator that runs on the web. Fetching, decoding, and executing instructions is done in Rust through WebAssembly. Rendering is done through HTML, CSS, and JavaScript.
+
 # Run
 
 Clone the repo
