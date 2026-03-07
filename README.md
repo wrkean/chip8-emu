@@ -11,7 +11,7 @@ git clone --depth=1 https://github.com/wrkean/chip8-emu.git
 cd chip8-emu
 ```
 
-Start a server (Example here uses `live-server` from npm) or try directly opening `index.html` in a browser.
+Start a server (Example here uses `live-server` from npm).
 
 ```
 live-server
@@ -21,6 +21,6 @@ or
 
 - Download the ZIP
 - Extract the contents
-- Start a server or try directly opening `index.html` in a browser.
+- Start a server
 
 Drag and drop roms from your file manager or click the button in the UI to browse for roms. You need to own the roms, you can look them up in the internet by simply searching `chip8 roms`.
