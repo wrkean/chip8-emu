@@ -1,6 +1,13 @@
 # Run
 
-Start a live server at the root directory
+Clone the repo
+
+```
+git clone --depth=1 https://github.com/wrkean/chip8-emu.git
+cd chip8-emu
+```
+
+Start a server (Example here uses `live-server` from npm)
 
 ```
 live-server
