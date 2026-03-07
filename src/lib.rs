@@ -1,3 +1,5 @@
+mod wasm;
+
 use std::{
     fs::File,
     io::{self, Read, Result},
@@ -84,7 +86,7 @@ impl Chip8 {
     // Emulates the chip8 cycle.
     // Fetch -> Decode -> Execute
     #[allow(non_snake_case)]
-    pub fn emulate_cycle(&mut self) {
+    pub fn emulate_cycle(&mut self) -> &[u8] {
         /* Fetch opcode from memory.
             Opcode is from memory[PC] to memory[PC + 1] as a u16
             Combines memory[PC] and memory[PC + 1] by first casting
@@ -406,7 +408,9 @@ impl Chip8 {
             _ => {
                 eprintln!("Invalid opcode: {:#X}", opcode);
             }
-        }
+        };
+
+        &self.display
     }
 
     pub fn update_timers(&mut self) {
