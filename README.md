@@ -1,10 +1,9 @@
 # Run
-Run this inside the project directory:
+
+Start a live server at the root directory
+
 ```
-cargo run path_to_ch8_file
+live-server
 ```
 
-Replace `path_to_ch8_file` to the actual path to a chip8 game file (rom)  
-# Crates used
-[Rust-SDL2](https://crates.io/crates/sdl2)  
-[Rand](https://docs.rs/rand/latest/rand/)
+Drag and drop roms from your file manager or click the button in the UI to browse for roms. You need to own the roms, you can look them up in the internet.
