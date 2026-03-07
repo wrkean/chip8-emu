@@ -1,0 +1,22 @@
+[package]
+name = "chip8-emu"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+wasm-bindgen = "0.2"
+getrandom    = { version = "0.2", features = ["js"] }
+rand = "0.10.0"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom_04 = { package = "getrandom", version = "0.4", features = ["wasm_js"] }
+
+# Force transitive deps to use getrandom 0.2 with the js feature
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false  # optional, speeds up build on Termux
+
+[features]
+default = []
+
+[lib]
+crate-type = ["cdylib", "rlib"]
