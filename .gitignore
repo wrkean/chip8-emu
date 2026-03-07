@@ -1,2 +1,6 @@
 /target
 roms
+
+Cargo.toml
+Cargo.lock
+src
