@@ -23,4 +23,4 @@ or
 - Extract the contents
 - Start a server or try directly opening `index.html` in a browser.
 
-Drag and drop roms from your file manager or click the button in the UI to browse for roms. You need to own the roms, you can look them up in the internet.
+Drag and drop roms from your file manager or click the button in the UI to browse for roms. You need to own the roms, you can look them up in the internet by simply searching `chip8 roms`.
