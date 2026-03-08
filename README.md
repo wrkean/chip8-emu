@@ -24,3 +24,14 @@ or
 - Start a server
 
 Drag and drop roms from your file manager or click the button in the UI to browse for roms. You need to own the roms, you can look them up in the internet by simply searching `chip8 roms`.
+
+# Controls
+
+Keys are mapped like this:
+
+```
+1 2 3 C → 1 2 3 4
+4 5 6 D → Q W E R
+7 8 9 E → A S D F
+A 0 B F → Z X C V
+```
